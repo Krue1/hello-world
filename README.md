@@ -1,3 +1,4 @@
-# hello-world
-Learning how to create a new repository
-You guys call me do that!
+# 杂七杂八的DEMO
+
+## Demo
+* [Vue官方文档基础练习](https://krue1.github.io/Practice/Vue1.html) 
