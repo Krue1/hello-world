@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- link rel="stylesheet" type="text/css" href="select.css" -->
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="Vue1">
+        <input type="text" name="input1" v-model="data1" />
+        <input type="text" name="input2" v-model="data2" />
+        <button v-on:click="myClick">ADD</button>
+        <p :style="{color:myColor, fontSize:myFontSize + 'px'}">SUM: {{total}}</p>
+        <hr />
+        <ul>
+            <li v-for="(item,index) in itemList" :key="index">
+                {{ item.text }} {{item.quantity}}
+                <span v-if="item.quantity<=0"> <b>-Sold Out</b> </span>
+                <span v-else> <b>-On Sale&nbsp;&nbsp;</b> </span>
+                <button @click="add(item)">add</button>
+                <button @click="remove(index)">remove</button>
+            </li>
+        </ul>
+        <input type="text" name="input1" v-model="itemText" />
+        <input type="text" name="input2" v-model="itemQuan" />
+        <button @click="add2">add new item</button>
+        <p>Total Quantity: {{total2}}</p>
+        <hr />
+        <p>
+            First Name:<input type="text" name="input3" v-model.trim="firstName" />
+            Last Name:<input type="text" name="input3" v-model.trim="lastName" />
+        </p>
+        <p>My Name:{{fullName}}</p>
+        <hr />
+        <select id="s1" v-model="selectedType">
+            <option value="admin">admin</option>
+            <option value="user">user</option>
+        </select>
+        <p v-show="isShow">Administrator CAN SEE ME HHHHHHHHHHHHHHHHA</p>
+        <hr />
+        <input v-on:keyup.enter.exact="alert('hi')" placeholder="Key up Enter">
+        <hr />
+        <button-counter></button-counter>
+    </div>
+    <script type="text/javascript">
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('button-counter', {
+        data: function() {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+
+    let myVue = new Vue({
+        el: "#Vue1",
+        data: {
+            data1: "0",
+            data2: "0",
+            total: "0",
+            myColor: "black",
+            myFontSize: 24,
+            itemList: [
+                { text: "Chip", quantity: 3 },
+                { text: "Hamburger", quantity: 0 },
+                { text: "Chiken", quantity: -2 }
+            ],
+            itemText: "",
+            itemQuan: 0,
+            firstName: "",
+            lastName: "",
+            selectedType: "admin"
+        },
+        methods: {
+            myClick: function() {
+                this.total = Number(this.data1) + Number(this.data2);
+                if (this.total <= 0) {
+                    this.myColor = "black";
+                } else {
+                    this.myColor = "red";
+                }
+            },
+            add: function(item) {
+                item.quantity++;
+            },
+            remove: function(index) {
+                this.itemList.splice(index, 1);
+            },
+            add2: function() {
+                this.itemList.push({ text: this.itemText, quantity: Number(this.itemQuan) });
+            },
+            alert: function(s) {
+                alert(s);
+            }
+        },
+        computed: {
+            total2: function() {
+                let t = 0;
+                for (let i = 0; i < this.itemList.length; i++) {
+                    t += Number(this.itemList[i].quantity);
+                }
+                return t;
+            },
+            fullName: {
+                get: function() {
+                    if (typeof(this.firstName) == "undefined") {
+                        this.firstName = "";
+                    }
+                    if (typeof(this.lastName) == "undefined") {
+                        this.lastName = "";
+                    }
+                    return this.firstName + " " + this.lastName;
+                },
+                set: function(newValue) {
+                    let names = newValue.split(" ");
+                    this.firstName = names[0];
+                    this.lastName = names[1];
+                }
+            },
+            isShow: function() {
+                if (this.selectedType === "admin") {
+                    return true;
+                } else if (this.selectedType === "user") {
+                    return false;
+                }
+                return false;
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>
