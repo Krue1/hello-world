@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Map And Set</title>
+</head>
+
+<body>
+  <script>
+    function unique(arr) {
+      /* 你的代码 */
+      return Array.from(new Set(arr));
+    }
+
+    function aclean(arr) {
+      let map = new Map();
+      for (let string of arr) {
+        map.set(string.toLowerCase().split("").sort().join(""), string);
+      }
+      return Array.from(map.values());
+    }
+
+    let values = ["Hare", "Krishna", "Hare", "Krishna",
+      "Krishna", "Krishna", "Hare", "Hare", ":-O"
+    ];
+    console.log(unique(values)); // Hare, Krishna, :-O
+
+    let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+
+    console.log(aclean(arr));//["PAN", "hectares", "era"]
+
+
+    function topSalary(salaries) {
+      let top = -Infinity;
+      let topName = null;
+      for (let [name, salary] of Object.entries(salaries)) {
+        if (salary > top) {
+          topName = name;
+          top = salary;
+        }
+      }
+      return topName;
+    }
+    let salaries = {
+      "John": 100,
+      "Pete": 300,
+      "Mary": 250
+    };
+    console.log(topSalary(salaries));
+    let start = Date.now();
+    console.log(start);
+  </script>
+</body>
+
+</html>

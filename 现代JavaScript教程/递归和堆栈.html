@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>递归和堆栈</title>
+</head>
+
+<body>
+  <script>
+    function sumTo(n) {
+      // let sum = 0;
+      // for (let i = 1; i <= n; i++) {
+      //   sum += i;
+      // }
+      // return sum;
+
+      return n === 1 ? 1 : n + sumTo(n - 1);
+
+      //return (n + 1) * n / 2;
+    }
+
+    function factorial(n) {
+      return n === 1 ? 1 : n * factorial(n - 1);
+    }
+
+    function fib(n) {
+      return n === 1 || n === 2 ? 1 : fib(n - 1) + fib(n - 2);
+    }
+
+    function printList(list) {
+      console.log(list.value);
+      if (list.next) {
+        printList(list.next);
+      }
+    }
+
+    function reversePrintList(list) {
+      if (list.next) {
+        reversePrintList(list.next);
+      }
+      console.log(list.value);
+    }
+
+    let list = {
+      value: 1,
+      next: {
+        value: 2,
+        next: {
+          value: 3,
+          next: {
+            value: 4,
+            next: null
+          }
+        }
+      }
+    };
+
+    let prev = new Date();
+    //console.log(sumTo(100)); // 5050
+    //console.log(factorial(5));
+    //console.log(fib(7));
+    //printList(list);
+    //reversePrintList(list);
+    //console.log(Date.now() - prev);
+
+    function sum(a) {
+      return (b) => a + b;
+    }
+    console.log(sum(1)(2));
+
+    function inBetween(a, b) {
+      return function (num) {
+        return num >= 3 && num <= 6;
+      }
+    }
+    function inArray(arr) {
+      return function (num) {
+        return arr.includes(num);
+      }
+    }
+    let arr = [1, 2, 3, 4, 5, 6, 7];
+
+    function byField(fieldName) {
+      return function (a, b) {
+        return a[fieldName] > b[fieldName] ? 1 : -1;
+      }
+    }
+    let users = [
+      { name: "John", age: 20, surname: "Johnson" },
+      { name: "Pete", age: 18, surname: "Peterson" },
+      { name: "Ann", age: 19, surname: "Hathaway" }
+    ];
+    users.sort(byField('name'));
+    console.log(users);
+    // users.sort(byField('age'));
+    // console.log(users);
+
+    function makeArmy() {
+      let shooters = [];
+
+      for (let i = 0; i < 10; i++) {
+        let shooter = function () { // shooter 函数
+          console.log(i); // 应该显示其编号
+        };
+        shooters.push(shooter);
+      }
+
+      return shooters;
+    }
+
+    let army = makeArmy();
+
+    army[0](); // 编号为 0 的 shooter 值为 10
+    army[5](); // 编号为 5 的 shooter 值也是 10……
+
+    function makeCounter() {
+      let count = 0;
+
+      let counterCount = function () {
+        return count++;
+      }
+      counterCount.set = function (a) {
+        count = a;
+      }
+      counterCount.decrease = function () {
+        count--;
+      }
+      return counterCount;
+    }
+
+    let counter = makeCounter();
+    counter(); // 0
+    counter(); // 1
+    counter.set(10); // set the new count
+    counter.decrease(); // decrease the count by 1
+
+    function printNumbers(from, to) {
+      // let timerId = setInterval(function () {
+      //   if (from === to) {
+      //     clearInterval(timerId);
+      //   }
+      //   console.log(from++);
+      // }, 1000)
+      setTimeout(function func() {
+        if (from !== to) {
+          timerId = setTimeout(func, 1000);
+        }
+        console.log(from++);
+      }, 1000)
+    }
+    printNumbers(4, 7);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>现代JavaScript教程-数组</title>
+</head>
+
+<body>
+  <script>
+    function camelize(str) {
+      return str.split("-")
+        .map((item, index) => index === 0 ? item : item[0].toUpperCase() + item.slice(1))
+        .join("");
+    }
+
+    function filterRange(arr, a, b) {
+      return arr.filter((num) => num >= a && num <= b);
+    }
+
+    function filterRangeInPlace(arr, a, b) {
+      let temp = arr.filter((num) => num >= a && num <= b);
+      arr.length = 0;
+      for (let num of temp) {
+        arr.push(num);
+      }
+    }
+
+    function copySorted(arr) {
+      return arr.slice(0).sort();
+    }
+
+    function Calculator() {
+      this.methods = {
+        "+": (a, b) => a + b,
+        "-": (a, b) => a - b,
+      }
+    }
+    Calculator.prototype.calculate = function (str) {
+      let arr = str.split(" ");
+      let op = arr[1];
+      let a = +arr[0];
+      let b = +arr[2];
+
+      if (!this.methods[op] || isNaN(a) || isNaN(b)) {
+        return NaN;
+      }
+      return this.methods[op](a, b);
+    }
+    Calculator.prototype.addMethod = function (op, fun) {
+      this.methods[op] = fun;
+    }
+    let powerCalc = new Calculator;
+    powerCalc.addMethod("*", (a, b) => a * b);
+    powerCalc.addMethod("/", (a, b) => a / b);
+    powerCalc.addMethod("**", (a, b) => a ** b);
+
+    function sortByAge(users) {
+      users.sort((a, b) => a.age - b.age);
+    }
+
+    function shuffle(array) {
+      //array.sort((a, b) => Math.random() - 0.5);
+
+      //Fisher-Yates-Shuffle
+      for (let i = array.length - 1; i >= 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function getAverageAge(users) {
+      return users.reduce((sum, cur) => sum + cur.age, 0) / users.length;
+    }
+
+    function unique(arr) {
+      let result = [];
+      for (let string of strings) {
+        if (!result.includes(string)) {
+          result.push(string);
+        }
+      }
+      return result;
+    }
+
+    function groupById(arr) {
+      return arr.reduce((result, user) => {
+        result[user.id] = user;
+        return result;
+      }, {})
+    }
+
+    let users = [
+      { id: 'john', name: "John Smith", age: 20 },
+      { id: 'ann', name: "Ann Smith", age: 24 },
+      { id: 'pete', name: "Pete Peterson", age: 31 },
+    ];
+
+    let usersById = groupById(users);
+  </script>
+</body>
+
+</html>

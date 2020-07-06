@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>装饰者模式和转发</title>
+</head>
+
+<body>
+  <script>
+    function spy(func) {
+      function wrapper(...args) {
+        wrapper.calls.push(args);
+        return func.apply(this, args);
+      }
+      wrapper.calls = [];
+      return wrapper;
+    }
+
+    function work(a, b) {
+      alert(a + b); // work 是一个任意的函数或方法
+    }
+
+    work = spy(work);
+
+    //work(1, 2); // 3
+    //work(4, 5); // 9
+
+    for (let args of work.calls) {
+      //alert('call:' + args.join()); // "call:1,2", "call:4,5"
+    }
+
+
+    function delay(f, ms) {
+      function wrapper(...x) {
+        setTimeout(() => f.apply(this, x), ms,);
+      }
+      return wrapper;
+    }
+
+    function f(x) {
+      alert(x);
+    }
+
+    // create wrappers
+    let f1000 = delay(f, 1000);
+    let f1500 = delay(f, 1500);
+
+    f1000("test"); // 在 1000ms 后显示 "test"
+    f1500("test"); // 在 1500ms 后显示 "test"
+  </script>
+</body>
+
+</html>
