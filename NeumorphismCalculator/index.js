@@ -112,6 +112,9 @@ const vm = new Vue({
     calculate() {
       let result = this.equation.replace(/×/g, '*').replace(/÷/g, '/');
       this.equation = parseFloat(eval(result).toFixed(9)).toString();
+      if (this.equation.length > 11) {
+        this.equation = Number(this.equation).toExponential(3).toString();
+      }
       this.isDecimalAdded = false;
       this.isOperatorAdded = false;
 

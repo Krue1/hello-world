@@ -10,7 +10,9 @@
 
 <body>
   <div class="calculator" id="calculator">
-    <div class="result">{{equation}}</div>
+    <div class="result">
+      <div style="float: right;">{{equation}}</div>
+    </div>
     <button style="grid-area: ac;" @click="clear">AC</button>
     <button style="grid-area: plus-minus;" @click="toggle">±</button>
     <button style="grid-area: percent;" @click="calculatePercentage">%</button>
