@@ -114,6 +114,10 @@ const vm = new Vue({
       this.equation = parseFloat(eval(result).toFixed(9)).toString();
       this.isDecimalAdded = false;
       this.isOperatorAdded = false;
+
+      if (this.equation.split('').includes('.')) {
+        this.isDecimalAdded = true;
+      }
     },
   },
 });
