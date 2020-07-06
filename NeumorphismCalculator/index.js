@@ -5,6 +5,7 @@ const vm = new Vue({
     isDecimalAdded: false,
     isOperatorAdded: false,
     isStarted: false,
+    isCalculated: false,
   },
   methods: {
     // When pressed 'AC'
@@ -13,6 +14,7 @@ const vm = new Vue({
       this.isDecimalAdded = false;
       this.isOperatorAdded = false;
       this.isStarted = false;
+      this.isCalculated = false;
     },
     // check if the character is [+,-,*,/]
     isOperator(character) {
@@ -35,8 +37,14 @@ const vm = new Vue({
       // If enter number
       if (!this.isOperator(character)) {
         if (character !== '.') {
-          this.equation += String(character);
-          this.isOperatorAdded = false;
+          if (!this.isCalculated) {
+            this.equation += String(character);
+            this.isOperatorAdded = false;
+          } else {
+            this.clear();
+            this.isStarted = true;
+            this.equation = String(character);
+          }
         }
         if (
           character === '.' &&
@@ -62,6 +70,7 @@ const vm = new Vue({
           this.isDecimalAdded = false;
           this.isOperatorAdded = true;
         }
+        this.isCalculated = false;
         return;
       }
     },
@@ -74,6 +83,7 @@ const vm = new Vue({
           this.equation = this.equation.join('');
           this.equation += '*(-1)';
           this.calculate();
+          this.isCalculated = false;
         } else {
           // this.equation = this.equation.split('');
           // let lastOperatorPosition = 0;
@@ -104,6 +114,7 @@ const vm = new Vue({
       } else {
         this.equation += '*0.01';
         this.calculate();
+        this.isCalculated = false;
       }
       if (this.equation.split('').includes('.')) {
         this.isDecimalAdded = true;
@@ -117,6 +128,7 @@ const vm = new Vue({
       }
       this.isDecimalAdded = false;
       this.isOperatorAdded = false;
+      this.isCalculated = true;
 
       if (this.equation.split('').includes('.')) {
         this.isDecimalAdded = true;
