@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>练习</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="vm">
+    <div>
+      <button v-bind:disabled="isButtonDisabled">Button</button>
+      <button @click="toggle">反转！反转！</button>
+      <h6>click number: {{clickNumber}}</h6>
+    </div>
+    <div>
+      <p><input type="text" v-model="message"></input></p>
+      <p>{{reversedMessage}}</p>
+    </div>
+    <div>
+      <template v-if="loginType === 'username'">
+        <label>Username</label>
+        <input placeholder="Enter your username" key="username-input">
+      </template>
+      <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address" key="email-input">
+      </template>
+      <button @click="toggleLoginType">toggle login type</button>
+    </div>
+    <div>
+      <ul>
+        <li v-for="(item, index) of items">
+          {{ parentMessage }} - {{ index }} - {{ item.message }}
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul id="v-for-object" class="demo">
+        <li v-for="(value,name,index) of object">
+          {{index}} - {{name}}: {{ value }}
+        </li>
+      </ul>
+    </div>
+    <div>
+      <input type="checkbox" id="jacky" value="Jack" v-model="checked">
+      <label for="jacky">jacky</label>
+      <input type="checkbox" id="ss" value="ss" v-model="checked">
+      <label for="ss">ss</label>
+      <!-- <label for="checkbox">{{ checked }}</label> -->
+      <span>{{checked}}</span>
+    </div>
+    <div>
+      <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+      <label for="jack">Jack</label>
+      <input type="checkbox" id="john" value="John" v-model="checkedNames">
+      <label for="john">John</label>
+      <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+      <label for="mike">Mike</label>
+      <br>
+      <span>Checked names: {{ checkedNames }}</span>
+    </div>
+    <div>
+      <div :style="{fontSize: postFontSize + 'em'}">
+        <blog-post v-for="post of posts" :post="post" :key="post.id" @enlarge-text="postFontSize+=0.1"></blog-post>
+      </div>
+      <custom-input v-model="searchText"></custom-input>
+    </div>
+  </div>
+  <script type="text/javascript">
+    let vm = new Vue({
+      el: "#vm",
+      data: {
+        isButtonDisabled: true,
+        clickNumber: 0,
+        message: "",
+        loginType: 'username',
+        parentMessage: 'Parent',
+        items: [
+          { message: 'Foo' },
+          { message: 'Bar' },
+          { message: 'Func' },
+        ],
+        object: {
+          title: 'How to do lists in Vue',
+          author: 'Jane Doe',
+          publishedAt: '2016-04-10'
+        },
+        checked: false,
+        checkedNames: [],
+        posts: [{
+          id: 1,
+          title: "wa",
+          content: "yesyesyeS!"
+        },],
+        postFontSize: 1,
+        searchText: "",
+      },
+      methods: {
+        toggle() {
+          this.isButtonDisabled = !this.isButtonDisabled;
+          this.clickNumber++;
+        },
+        toggleLoginType() {
+          this.loginType = this.loginType === 'username' ? "email" : "username";
+        }
+      },
+      computed: {
+        reversedMessage() {
+          return this.message.split("").reverse().join("");
+        }
+      },
+      components: {
+        'blog-post': {
+          props: ['post'],
+          template: `
+		    <div class="blog-post">
+		      <h3>{{ post.title }}</h3>
+		      <div v-html="post.content"></div>
+		      <button @click="$emit('enlarge-text')">
+		        Enlarge text
+		      </button>
+		    </div>
+  		`
+        },
+        'custom-input': {
+          props: ['value'],
+          template: `
+        <div>
+      		<input :value="value" @input="$emit('input',$event.target.value)">
+      		<p>{{value}}</p>
+        </div>
+      	`
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

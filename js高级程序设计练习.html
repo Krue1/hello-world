@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -21,7 +21,8 @@
     	// let instance = new SubClass();
     	// instance.sayProperty();
 
-    	function SuperClass(name) {
+
+    	/*function SuperClass(name) {
     		this.name = name;
     	}
     	SuperClass.prototype.sayName = function () {
@@ -35,8 +36,55 @@
     	SubClass.prototype.constructor = SubClass;
     	let instance = new SubClass("sub",22);
     	instance.sayName();
-    	console.log(SubClass.prototype);
+    	console.log(SubClass.prototype);*/
+
+
     </script>
+</body>
+
+</html> -->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  .selected {
+    background: #0f0;
+  }
+
+  li {
+    cursor: pointer;
+  }
+  </style>
+</head>
+
+<body>
+  Click on a list item to select it.
+  <br>
+  <ul id="ul">
+    <li>Christopher Robin</li>
+    <li>Winnie-the-Pooh</li>
+    <li>Tigger</li>
+    <li>Kanga</li>
+    <li>Rabbit. Just rabbit.</li>
+  </ul>
+  <script>
+  let lis = ul.querySelectorAll("li");
+  ul.addEventListener("click", function(event) {
+    let target = event.target;
+    if (target.tagName === "LI") {
+      if (!event.ctrlKey) {
+        for (li of lis) {
+          li.classList.remove("selected");
+        }
+        target.classList.add("selected");
+      } else {
+        target.classList.toggle("selected");
+      }
+    }
+  })
+  </script>
 </body>
 
 </html>

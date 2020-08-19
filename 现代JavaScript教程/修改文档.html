@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>回调</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td,
+    th {
+      border: 1px solid black;
+      padding: 3px;
+      text-align: center;
+    }
+
+    th {
+      font-weight: bold;
+      background-color: #E6E6E6;
+    }
+  </style>
+</head>
+
+<body>
+  <ol id="elem">
+    <li>Hello</li>
+    <li>World</li>
+  </ol>
+  <ul class="myList"></ul>
+  <ul id="container"></ul>
+  <div id="calendar"></div>
+  <div id="clock">
+    <div>
+      <span style="color: red;" id="h">HH</span>
+      <span>:</span>
+      <span style="color: green;" id="m">MM</span>
+      <span>:</span>
+      <span style="color: blue;" id="s">SS</span>
+    </div>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+  </div>
+  <ul id="ul">
+    <li id="one">1</li>
+    <li id="two">4</li>
+  </ul>
+  <table id="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr>
+        <td>John</td>
+        <td>Smith</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Pete</td>
+        <td>Brown</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>Ann</td>
+        <td>Lee</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function clear(elem) {
+      while (elem.firstChild) {
+        elem.firstChild.remove();
+      }
+    }
+
+    clear(elem); // 清除列表
+
+    // let myList = document.querySelector(".myList");
+    // let inputText = "";
+    // while (true) {
+    //   inputText = prompt("input your list item", "");
+    //   if (inputText === null || typeof inputText === "undefined") {
+    //     break;
+    //   }
+    //   let newLi = document.createElement("li");
+    //   newLi.textContent = inputText;
+    //   myList.append(newLi);
+    // }
+
+    function createTree(con, data) {
+      if (Object.keys(data).length !== 0) {
+        for (let key in data) {
+          let li = document.createElement("li");
+          li.textContent = key;
+          if (Object.keys(data[key]).length === 0) {
+            con.append(li);
+            continue;
+          }
+          let con2 = document.createElement("ul");
+          li.append(con2);
+          con.append(li);
+          createTree(con2, data[key]);
+        }
+      }
+    }
+    let container = document.getElementById('container');
+    let data = {
+      "Fish": {
+        "trout": {},
+        "salmon": {}
+      },
+
+      "Tree": {
+        "Huge": {
+          "sequoia": {},
+          "oak": {}
+        },
+        "Flowering": {
+          "apple tree": {},
+          "magnolia": {}
+        }
+      }
+    };
+    //createTree(container, data); // 将树创建在 container 中
+    function createCalendar(elem, year, month) {
+      let table = document.createElement("table");
+      let tr = document.createElement("tr");
+
+      let ths = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+      for (let item of ths) {
+        let th = document.createElement("th");
+        th.textContent = item;
+        tr.append(th);
+      }
+      table.append(tr);
+
+      let date = new Date(year, month - 1, 1);
+      let spaceDay = date.getDay() === 0 ? 6 : date.getDay() - 1;
+      let endDay = new Date(year, month, 0).getDate();
+      let rowNum = Math.ceil((spaceDay + endDay) / 7);
+      let x = 1;
+      tr = document.createElement("tr");
+      for (let j = 0; j < 7; j++) {
+        let td = document.createElement("td");
+        if (j < spaceDay) {
+          td.textContent = "";
+        } else {
+          td.textContent = x++;
+        }
+        tr.append(td);
+      }
+      table.append(tr);
+      for (let i = 1; i < rowNum; i++) {
+        tr = document.createElement("tr");
+        for (let j = 0; j < 7; j++, x++) {
+          let td = document.createElement("td");
+          if (i === rowNum - 1 && x > endDay) {
+            td.textContent = "";
+          } else {
+            td.textContent = x;
+          }
+          tr.append(td);
+        }
+        table.append(tr);
+      }
+      elem.append(table);
+    }
+    createCalendar(calendar, 2020, 7);
+
+    let timerId = setInterval(setTime, 1000);
+    function setTime() {
+      let date = new Date();
+      h.textContent = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      m.textContent = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      s.textContent = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    }
+    start.addEventListener("click", () => timerId = setInterval(setTime, 1000));
+    let stopBtn = document.querySelector("#stop");
+    stopBtn.addEventListener("click", () => clearInterval(timerId));
+    one.insertAdjacentHTML("afterend", "<li>2</li><li>3</li>");
+
+    let rows = tbody.rows;
+    for (let i = 0; i < rows.length - 1; i++) {
+      for (let j = 0; j < rows.length - 1 - i; j++) {
+        let a = rows[j].cells[0].textContent;
+        let b = rows[j + 1].cells[0].textContent;
+        if (a > b) {
+          rows[j + 1].after(rows[j]);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
