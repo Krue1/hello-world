@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>集合</title>
+</head>
+
+<body></body>
+<script>
+  let Set1 = function () {
+    let items = {};
+
+    //拥有某个值
+    this.has = function (value) {
+      return items.hasOwnProperty(value);
+    }
+
+    //往集合添加元素
+    this.add = function (value) {
+      if (this.has(value)) {
+        console.log(value + " 已存在");
+        return false;
+      } else {
+        items[value] = value;
+        return true;
+      }
+    }
+
+    //移除集合内某元素
+    this.remove = function (value) {
+      if (!this.has(value)) {
+        console.log(value + " 不存在");
+        return false;
+      } else {
+        delete items[value];
+        return true;
+      }
+    }
+
+    //获取集合内的值
+    this.values = function () {
+      let result = [];
+      for (key in items) {
+        if (items.hasOwnProperty(key)) {
+          result.push(items[key]);
+        }
+      }
+      return result;
+    }
+
+    //集合大小
+    this.size = function () {
+      return Object.keys(items).length;
+    }
+
+    //清空集合
+    this.clear = function () {
+      for (key in items) {
+        delete items[key];
+      }
+    }
+
+    //并集
+    this.union = function (otherSet) {
+      values = otherSet.values();
+      for (let i = 0; i < values.length; i++) {
+        this.add(values[i]);
+      }
+      return this;
+    };
+
+    //交集
+    this.intersection = function (otherSet) {
+      let currentItems = this.values().slice(0);
+      this.clear();
+      values = otherSet.values();
+      for (let i = 0; i < values.length; i++) {
+        if (currentItems.includes(values[i])) {
+          this.add(values[i]);
+        }
+      }
+      return this;
+    }
+
+    //差集
+    this.difference = function (otherSet) {
+      values = otherSet.values();
+      for (let i = 0; i < values.length; i++) {
+        if (this.has(values[i])) {
+          this.remove(values[i]);
+        }
+      }
+      return this;
+    }
+  }
+  let set = new Set1();
+  set.add(1); set.add(2); set.add(3);
+  let set2 = new Set1();
+  set2.add(4); set2.add(5); set2.add(3);
+  set.difference(set2);
+  console.log(set.values());
+</script>
+
+</html>

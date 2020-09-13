@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>链表</title>
+</head>
+
+<body></body>
+<script>
+  function DoublyLinkedList() {
+    let Node = function (element) {
+      this.element = element;
+      this.prev = null;
+      this.next = null;
+    }
+    this.length = 0;
+    this.head = null;
+    this.tail = null;
+
+    this.insert = function (position, element) {
+      if (position < 0 || position > this.length) {
+        console.log("插入位置错误");
+        return this;
+      } else {
+        let node = new Node(element);
+        let current = this.head;
+        if (position === 0) {
+          if (!this.head) {
+            this.tail = node.next;
+          } else {
+            node.next = current;
+            current.prev = node;
+          }
+          this.head = node;
+        } else if (position === this.length) {
+          current = this.tail;
+          current.next = node;
+          node.prev = current;
+          this.tail = node;
+        } else {
+          let index = 0;
+          let previos = current;
+          while (index++ < position) {
+            previos = current;
+            current = current.next;
+          }
+          node.next = current;
+          node.prev = previos;
+          previos.next = node;
+          current.prev = node;
+        }
+
+      }
+    }
+  }
+</script>
+
+</html>

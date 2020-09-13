@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>链表</title>
+</head>
+
+<body></body>
+<script>
+  function LinkedList() {
+    let Node = function (element) {
+      this.element = element;
+      this.next = null;
+    }
+    this.length = 0;
+    this.head = null;
+
+    this.append = function (element) {
+      let node = new Node(element);
+      let current = null;
+      if (!this.head) {
+        this.head = node;
+      } else {
+        current = this.head;
+        while (current.next) {
+          current = current.next;
+        }
+        current.next = node;
+      }
+      this.length++;
+      return this;
+    };
+    this.insert = function (position, element) { };
+    this.removeAt = function (position) {
+      if (position <= -1 || position > this.length) {
+        console.log("删除位置错误");
+        return this;
+      }
+      if (position === 0) {
+        this.head = this.head.next;
+      } else {
+        let previous = this.head;
+        let current = this.head;
+        let index = 0;
+        while (index++ < position) {
+          previous = current;
+          current = current.next;
+        }
+        previous.next = current.next;
+      }
+      this.length--;
+      return this;
+    };
+    this.remove = function (element) {
+      if (!this.length) {
+        console.log("无元素可删除");
+        return this;
+      } else {
+        let current = this.head;
+        let previous = this.head;
+        while (current) {
+          if (current.element === element) {
+            break;
+          }
+          previous = current;
+          current = current.next;
+        }
+        if (current) {
+          if (current === this.head) {
+            this.head = current.next;
+          }
+          previous.next = current.next;
+        } else {
+          console.log("链表中没有所指定要删除的元素");
+          return this;
+        }
+      }
+      this.length--;
+      return this;
+    };
+    this.indexOf = function (element) {
+      if (!this.length) {
+        console.log("无元素可取");
+        return -1;
+      } else {
+        let current = this.head;
+        let index = 0;
+        while (current) {
+          if (current.element === element) {
+            return index;
+          }
+          index++;
+          current = current.next;
+        }
+        return -1;
+      }
+    };
+    this.isEmpty = function () {
+      return !this.size();
+    };
+    this.size = function () {
+      return this.length;
+    };
+    this.getHead = function () {
+      return this.head.element;
+    };
+    this.toString = function () {
+      let current = this.head;
+      let result = "";
+      while (current) {
+        if (current.next) {
+          result += current.element + " -> ";
+        } else {
+          result += current.element;
+        }
+        current = current.next;
+      }
+      return result;
+    };
+    this.print = function () {
+      let current = this.head;
+      let result = "";
+      while (current) {
+        if (current.next) {
+          result += current.element + " -> ";
+        } else {
+          result += current.element;
+        }
+        current = current.next;
+      }
+      console.log(result);
+    };
+  }
+  let linkedList = new LinkedList();
+  linkedList.append(1).append(2).append(3).append(5);
+  linkedList.removeAt(0).remove(3).print();
+  console.log(linkedList.append(6).indexOf(6));
+  console.log(linkedList.removeAt(0).removeAt(0).removeAt(0).isEmpty());
+</script>
+
+</html>
