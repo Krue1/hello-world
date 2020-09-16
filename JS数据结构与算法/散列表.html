@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>散列表</title>
+</head>
+
+<body></body>
+<script>
+  function LinkedList() {
+    let Node = function (element) {
+      this.element = element;
+      this.next = null;
+    }
+    this.length = 0;
+    this.head = null;
+
+    this.append = function (element) {
+      let node = new Node(element);
+      let current = null;
+      if (!this.head) {
+        this.head = node;
+      } else {
+        current = this.head;
+        while (current.next) {
+          current = current.next;
+        }
+        current.next = node;
+      }
+      this.length++;
+      return this;
+    };
+    this.insert = function (position, element) { };
+    this.removeAt = function (position) {
+      if (position <= -1 || position > this.length) {
+        console.log("删除位置错误");
+        return this;
+      }
+      if (position === 0) {
+        this.head = this.head.next;
+      } else {
+        let previous = this.head;
+        let current = this.head;
+        let index = 0;
+        while (index++ < position) {
+          previous = current;
+          current = current.next;
+        }
+        previous.next = current.next;
+      }
+      this.length--;
+      return this;
+    };
+    this.remove = function (element) {
+      if (!this.length) {
+        console.log("无元素可删除");
+        return this;
+      } else {
+        let current = this.head;
+        let previous = this.head;
+        while (current) {
+          if (current.element === element) {
+            break;
+          }
+          previous = current;
+          current = current.next;
+        }
+        if (current) {
+          if (current === this.head) {
+            this.head = current.next;
+          }
+          previous.next = current.next;
+        } else {
+          console.log("链表中没有所指定要删除的元素");
+          return this;
+        }
+      }
+      this.length--;
+      return this;
+    };
+    this.indexOf = function (element) {
+      if (!this.length) {
+        console.log("无元素可取");
+        return -1;
+      } else {
+        let current = this.head;
+        let index = 0;
+        while (current) {
+          if (current.element === element) {
+            return index;
+          }
+          index++;
+          current = current.next;
+        }
+        return -1;
+      }
+    };
+    this.isEmpty = function () {
+      return !this.size();
+    };
+    this.size = function () {
+      return this.length;
+    };
+    this.getHead = function () {
+      return this.head;
+    };
+    this.toString = function () {
+      let current = this.head;
+      let result = "";
+      while (current) {
+        if (current.next) {
+          result += current.element + " -> ";
+        } else {
+          result += current.element;
+        }
+        current = current.next;
+      }
+      return result;
+    };
+    this.print = function () {
+      let current = this.head;
+      let result = "";
+      while (current) {
+        if (current.next) {
+          result += current.element + " -> ";
+        } else {
+          result += current.element;
+        }
+        current = current.next;
+      }
+      console.log(result);
+    };
+  }
+
+  function HashTable() {
+    let table = [];
+    let loseloseHashCode = function (key) {
+      let hash = 0;
+      for (let i = 0; i < key.length; i++) {
+        hash += key.charCodeAt(i);
+      }
+      return hash % 37; //{4}
+    };
+    let ValuePair = function (key, value) {
+      this.key = key;
+      this.value = value;
+      this.toString = function () {
+        return '[' + this.key + ' - ' + this.value + ']';
+      }
+    };
+
+    this.put = function (key, value) {
+      let position = loseloseHashCode(key);
+      if (!table[position]) {
+        table[position] = new LinkedList();
+      }
+      table[position].append(new ValuePair(key, value));
+
+    }
+
+    this.get = function (key) {
+      let position = loseloseHashCode(key);
+      if (!table[position]) {
+        return undefined;
+      } else {
+        let current = table[position].getHead();
+        while (current) {
+          if (current.element.key === key) {
+            return current.element.value;
+          }
+          current = current.next;
+        }
+        return undefined;
+      }
+    };
+
+    this.remove = function (key) {
+      let position = loseloseHashCode(key);
+      if (!table[position]) {
+        return false;
+      } else {
+        let current = table[position].getHead();
+        while (current) {
+          if (current.element.key === key) {
+            table[position].remove(current.element);
+            if (table[position].isEmpty()) {
+              table[position] = undefined;
+            }
+            return true;
+          }
+          current = current.next;
+        }
+        return false;
+      }
+    };
+
+    this.print = function () {
+      for (let i = 0; i < table.length; ++i) { //{1}
+        if (table[i]) { //{2}
+          console.log(i + ": " + table[i]);//{3}
+        }
+      }
+    };
+  }
+
+  let hashTable = new HashTable();
+  hashTable.put("Jack", "banana");
+  hashTable.put('Gandalf', 'gandalf@email.com');
+  hashTable.put('John', 'johnsnow@email.com');
+  hashTable.put('Tyrion', 'tyrion@email.com');
+  hashTable.put('Aaron', 'aaron@email.com');
+  hashTable.put('Donnie', 'donnie@email.com');
+  hashTable.put('Ana', 'ana@email.com');
+  hashTable.put('Jonathan', 'jonathan@email.com');
+  hashTable.put('Jamie', 'jamie@email.com');
+  hashTable.put('Sue', 'sue@email.com');
+  hashTable.put('Mindy', 'mindy@email.com');
+  hashTable.put('Paul', 'paul@email.com');
+  hashTable.put('Nathan', 'nathan@email.com');
+  hashTable.remove("Nathan");
+  hashTable.print();
+  console.log(hashTable.get("Nathan"));
+</script>
+
+</html>

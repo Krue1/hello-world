@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>字典</title>
+</head>
+
+<body></body>
+<script>
+  function Dictionary() {
+    let items = {};
+
+    this.has = function (key) {
+      return items.hasOwnProperty(key);
+    }
+
+    this.set = function (key, value) {
+      items[key] = value;
+    }
+
+    this.delete = function (key) {
+      if (!this.has(key)) {
+        console.log("字典中没有该键");
+        return false;
+      } else {
+        delete items[key];
+        return true;
+      }
+    }
+
+    this.get = function (key) {
+      return this.has(key) ? items[key] : undefined;
+    };
+
+    this.values = function () {
+      var values = [];
+      for (key in items) {
+        if (this.has(key)) {
+          values.push(items[key]);
+        }
+      }
+      return values;
+    };
+
+    this.keys = function () {
+      return Object.keys(items);
+    };
+
+    this.size = function () {
+      return Object.keys(items).length;
+    }
+
+    this.clear = function () {
+      for (key in items) {
+        if (this.has(key)) {
+          delete items[key];
+        }
+      }
+    }
+
+    this.getItems = function () {
+      return items;
+    }
+  }
+
+  let dictionary = new Dictionary();
+  dictionary.set('Gandalf', 'gandalf@email.com');
+  dictionary.set('John', 'johnsnow@email.com');
+  dictionary.set('Tyrion', 'tyrion@email.com');
+  console.log(dictionary.has('Gandalf'));
+  console.log(dictionary.keys());
+  console.log(dictionary.values());
+  console.log(dictionary.get('Tyrion'));
+
+  dictionary.delete('John');
+  console.log(dictionary.keys());
+  console.log(dictionary.values());
+  console.log(dictionary.getItems());
+</script>
+
+</html>

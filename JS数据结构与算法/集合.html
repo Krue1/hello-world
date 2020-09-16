@@ -93,13 +93,27 @@
       }
       return this;
     }
+
+    //子集
+    this.subset = function (otherSet) {
+      if (this.size() > otherSet.size()) { //{1}
+        return false;
+      } else {
+        let values = this.values();
+        for (let i = 0; i < values.length; i++) { //{2}
+          if (!otherSet.has(values[i])) { //{3}
+            return false; //{4}
+          }
+        }
+        return true; //{5}
+      }
+    };
   }
   let set = new Set1();
   set.add(1); set.add(2); set.add(3);
   let set2 = new Set1();
-  set2.add(4); set2.add(5); set2.add(3);
-  set.difference(set2);
-  console.log(set.values());
+  set2.add(4); set2.add(3);
+  console.log(set2.subset(set));
 </script>
 
 </html>
