@@ -75,6 +75,28 @@
         }
       }
     }
+    this.dfs = function (v, callback) {
+      let color = initializeColor();
+      for (let i = 0; i < vertex.length; i++) {
+        if (color[vertex[i]] === "white") {
+          dfsVisit(vertex[i], color, callback);
+        }
+      }
+    }
+    let dfsVisit = function (u, color, callback) {
+      color[u] = "grey";
+      if (callback) {
+        callback(u);
+      }
+      let neighbours = adjList.get(u);
+      for (let i = 0; i < neighbours.length; i++) {
+        let w = neighbours[i];
+        if (color[w] === "white") {
+          dfsVisit(w, color, callback);
+        }
+      }
+      color[u] = "black";
+    }
   }
 
   let graph = new Graph();
@@ -93,7 +115,10 @@
   graph.addEdge('B', 'F');
   graph.addEdge('E', 'I');
   console.log(graph.toString());
-  graph.bfs("A", (v) => console.log(v));
+  // graph.bfs("A", (v) => console.log(v));
+  graph.dfs("A", (v) => console.log(v));
+
+  var f = v => v;
 </script>
 
 </html>

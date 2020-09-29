@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>搜索算法</title>
+</head>
+
+<body>
+  <script>
+    let array = [5, 2, 3, 1, 4, 6, 0];
+    let initArray = (arr) => arr = [5, 2, 3, 1, 4, 6, 0];
+    let swap = (arr, a, b) => [arr[a], arr[b]] = [arr[b], arr[a]];
+
+    let sequentialSearch = function (arr, item) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === item) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    let binarySearch = function (arr, item) {
+      arr.sort((a, b) => a - b);
+      let low = 0, high = arr.length - 1, mid = 0;
+      while (low <= high) {
+        mid = Math.floor((low + high) / 2);
+        if (arr[mid] === item) {
+          return mid;
+        } else if (item < arr[mid]) {
+          high = mid - 1;
+        } else {
+          low = mid + 1;
+        }
+      }
+      return -1;
+    }
+
+
+    // console.log(array);
+    let item = 5;
+    array.sort((a, b) => a - b);
+    console.log(`array index of item: ` + array.indexOf(item));
+    console.log(Date.now());
+    // console.log("result: " + sequentialSearch(array, item));
+    console.log("result: " + binarySearch(array, item));
+    console.log(Date.now());
+  </script>
+</body>
+
+</html>
